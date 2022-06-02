@@ -2,6 +2,7 @@ package com.softarex.domas.questionnaire_portal.config;
 
 
 
+import com.softarex.domas.questionnaire_portal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +18,13 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private UserService userService;
+
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public void setSecurityUserDetailsService( PasswordEncoder passwordEncoder) {
+    public void setSecurityUserDetailsService(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -34,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .authorizeRequests()
-                .mvcMatchers("/questionnaire/**", "/answer_success" , "/js/**", "/css/**", "/webjars/**").permitAll()
+                .mvcMatchers("/questionnaire/**", "/answer_success" , "/js/**", "/css/**", "/webjars/**", "/logo/**").permitAll()
                 .mvcMatchers("/registration").anonymous()
                 .anyRequest().authenticated()
                 .and()
@@ -42,7 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .and()
-                .logout();
+                .logout().permitAll()
+                .and()
+                .rememberMe().userDetailsService(userService);
 
 
     }
@@ -51,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder);
+        authenticationProvider.setUserDetailsService(userService);
         return authenticationProvider;
     }
 }
