@@ -5,6 +5,7 @@ import com.softarex.domas.questionnaire_portal.dto.UserDto;
 import com.softarex.domas.questionnaire_portal.entity.user.Role;
 import com.softarex.domas.questionnaire_portal.entity.user.SecurityUserDetails;
 import com.softarex.domas.questionnaire_portal.entity.user.User;
+import com.softarex.domas.questionnaire_portal.exception.UserNotFoundException;
 import com.softarex.domas.questionnaire_portal.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +34,7 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
 
     }
+
 
     @Transactional
     public void addUser(UserDto userDto) {

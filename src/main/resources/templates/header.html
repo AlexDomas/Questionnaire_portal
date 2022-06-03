@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/css/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+    <script src="../static/js/bootstrap/bootstrap.js"></script>
+</head>
+<body class="bg-light">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container p-0">
+        <div class="navbar-brand">
+            <a th:href="@{/}"><img th:src="@{/logo/logo.png}" class="img-fluid" src="../static/logo/logo.png"></a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                <th:block sec:authorize="isAuthenticated()">
+                    <li class="nav-item">
+                        <a th:href="@{/fields}"
+                           th:classappend="${#request.getServletPath() == '/fields' ?  'text-primary' : ''}"
+                           class="nav-link">Fields</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/responses}"
+                           th:classappend="${#request.getServletPath() == '/responses' ?  'text-primary' : ''}"
+                           class="nav-link">Responses</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a th:href="@{/profile}" class="dropdown-item" href="#">Edit Profile</a></li>
+                            <li><a th:href="@{/change_password}" class="dropdown-item" href="#">Change Password</a></li>
+                            <li>
+                                <form th:action="@{/logout}" method="post" class="mb-0">
+                                    <button class="dropdown-item" type="submit">Log Out</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </th:block>
+                <th:block sec:authorize="!isAuthenticated()">
+                    <li class="nav-item">
+                        <a th:href="@{/login}" class="nav-link" href="#">Login</a>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

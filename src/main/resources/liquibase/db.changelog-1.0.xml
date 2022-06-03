@@ -41,8 +41,8 @@
             <column name="email" type="VARCHAR(50)"/>
             <column name="first_name" type="VARCHAR(40)"/>
             <column name="last_name" type="VARCHAR(40)"/>
-            <column name="password" type="VARCHAR(40)"/>
-            <column name="phone_number" type="VARCHAR(20)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(30)"/>
         </createTable>
         <addUniqueConstraint columnNames="email" constraintName="UC_USERS_EMAIL" tableName="users"/>
     </changeSet>
@@ -71,7 +71,7 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FIELD_ANSWER_OPTIONS"/>
             </column>
             <column name="field_answer_id" type="BIGINT"/>
-            <column name="option" type="VARCHAR(40)"/>
+            <column name="option" type="VARCHAR(50)"/>
         </createTable>
     </changeSet>
     <changeSet id="1.0.7" author="AlexDomas">
