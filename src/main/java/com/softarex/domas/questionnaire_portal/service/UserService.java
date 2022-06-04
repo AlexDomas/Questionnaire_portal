@@ -84,6 +84,11 @@ public class UserService implements UserDetailsService {
         return optionalUser.orElseThrow(UserNotFoundException::new);
     }
 
+    public void updateUserPassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
 
 
 

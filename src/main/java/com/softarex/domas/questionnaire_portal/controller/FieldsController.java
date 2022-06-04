@@ -35,8 +35,7 @@ public class FieldsController {
         public String getFieldsPage(Model model, Principal principal) throws UserNotFoundException {
             User user;
             user = userService.findByEmail(principal.getName());
-            UserDto userDto = userService.createDto(user);
-            model.addAttribute("userDto", userDto);
+            model.addAttribute("userName", user.getFirstName() + " " + user.getLastName());
             return "fields";
         }
 

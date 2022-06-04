@@ -31,11 +31,13 @@ public class UserProfileController {
         this.userService = userService;
     }
 
+
     @GetMapping("/edit_profile")
     public String editProfile(Model model, Principal principal) {
         User user;
         try {
             user = userService.findByEmail(principal.getName());
+            model.addAttribute("userName", user.getFirstName() + " " + user.getLastName());
         } catch (UserNotFoundException exception) {
             logger.log(Level.ERROR, exception.getClass());
             return "login";
@@ -48,11 +50,12 @@ public class UserProfileController {
     @PostMapping("/edit_profile")
     public String editProfileAction(@ModelAttribute("userDto") UserDto userDto,
                                     BindingResult bindingResult,
-                                    Authentication authentication) {
+                                    Authentication authentication, Model model) {
         SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
         if (!bindingResult.hasErrors()) {
             try {
                 User user = userService.findByEmail(authentication.getName());
+                model.addAttribute("userName", user.getFirstName() + " " + user.getLastName());
                 userService.updateUser(user, userDto);
                 userDetails.setUsername(userDto.getEmail());
                 return "redirect:edit_profile?success";
