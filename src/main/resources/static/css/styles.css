@@ -32,3 +32,9 @@
 .w-10 {
     width: 10% !important;
 }
+
+.input_profile_name{
+    border: none;
+    width:  100px;
+    color: #6c757d;
+}

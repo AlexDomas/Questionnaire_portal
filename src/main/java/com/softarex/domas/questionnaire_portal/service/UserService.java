@@ -35,6 +35,14 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Transactional
+    public void updateUser(User user, UserDto userDto) {
+        user.setEmail(userDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        userRepository.save(user);
+    }
 
     @Transactional
     public void addUser(UserDto userDto) {
@@ -60,6 +68,23 @@ public class UserService implements UserDetailsService {
         Hibernate.initialize(user.getRoles());
         return new SecurityUserDetails(user);
     }
+
+    public UserDto findDtoByEmail(String email) throws UserNotFoundException{
+        return new UserDto(userRepository.findByEmail(email)
+                .orElseThrow(UserNotFoundException::new));
+    }
+
+    public UserDto createDto(User user) {
+        return new UserDto(user.getEmail(),
+                user.getFirstName(), user.getLastName(), user.getPhoneNumber(), null, null);
+    }
+
+    public User findByEmail(String email) throws UserNotFoundException {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        return optionalUser.orElseThrow(UserNotFoundException::new);
+    }
+
+
 
 
 

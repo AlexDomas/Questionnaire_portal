@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../static/css/bootstrap/bootstrap.css" rel="stylesheet">
-    <link href="../static/css/style.css" rel="stylesheet">
+    <link href="../static/css/styles.css" rel="stylesheet">
     <script src="../static/js/bootstrap/bootstrap.js"></script>
 </head>
 <body class="bg-light">
@@ -24,20 +24,20 @@
                     <li class="nav-item">
                         <a th:href="@{/fields}"
                            th:classappend="${#request.getServletPath() == '/fields' ?  'text-primary' : ''}"
-                           class="nav-link">Fields</a>
+                           class="nav-link">Fields&nbsp;&nbsp;</a>
                     </li>
                     <li class="nav-item">
                         <a th:href="@{/responses}"
                            th:classappend="${#request.getServletPath() == '/responses' ?  'text-primary' : ''}"
-                           class="nav-link">Responses</a>
+                           class="nav-link">Responses&nbsp;&nbsp;</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" >
                         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Profile
+                           data-bs-toggle="dropdown" aria-expanded="false" >
+                            <input class="input_profile_name" type="text" th:value="${userDto.firstName + ' '+ userDto.lastName}" name="name" readonly/>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a th:href="@{/profile}" class="dropdown-item" href="#">Edit Profile</a></li>
+                            <li><a th:href="@{/edit_profile}" class="dropdown-item" href="#">Edit Profile</a></li>
                             <li><a th:href="@{/change_password}" class="dropdown-item" href="#">Change Password</a></li>
                             <li>
                                 <form th:action="@{/logout}" method="post" class="mb-0">

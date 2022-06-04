@@ -1,5 +1,8 @@
 package com.softarex.domas.questionnaire_portal.controller;
 
+import com.softarex.domas.questionnaire_portal.dto.UserDto;
+import com.softarex.domas.questionnaire_portal.entity.user.User;
+import com.softarex.domas.questionnaire_portal.exception.UserNotFoundException;
 import com.softarex.domas.questionnaire_portal.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +32,11 @@ public class FieldsController {
         }
 
         @GetMapping("/fields")
-        public String fields() {
+        public String getFieldsPage(Model model, Principal principal) throws UserNotFoundException {
+            User user;
+            user = userService.findByEmail(principal.getName());
+            UserDto userDto = userService.createDto(user);
+            model.addAttribute("userDto", userDto);
             return "fields";
         }
 

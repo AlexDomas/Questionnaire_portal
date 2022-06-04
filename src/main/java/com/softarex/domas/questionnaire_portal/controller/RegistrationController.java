@@ -27,13 +27,13 @@ public class RegistrationController {
     }
 
     @GetMapping("/registration")
-    public String registration(Model model) {
+    public String getRegistration(Model model) {
         model.addAttribute("userDto", new UserDto());
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String newUser(@ModelAttribute("userDto")  UserDto userDto, BindingResult bindingResult) {
+    public String createNewUser(@ModelAttribute("userDto")  UserDto userDto, BindingResult bindingResult) {
         logger.log(Level.INFO, userDto);
         if (bindingResult.hasErrors()) {
             return "registration";
