@@ -6,6 +6,7 @@ import com.softarex.domas.questionnaire_portal.entity.user.Role;
 import com.softarex.domas.questionnaire_portal.entity.user.SecurityUserDetails;
 import com.softarex.domas.questionnaire_portal.entity.user.User;
 import com.softarex.domas.questionnaire_portal.exception.UserNotFoundException;
+import com.softarex.domas.questionnaire_portal.property.MailProperty;
 import com.softarex.domas.questionnaire_portal.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,12 +28,16 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final MailService mailService;
+
+    private final MailProperty mailProperty;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, MailService mailService, MailProperty mailProperty) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
+        this.mailService = mailService;
+        this.mailProperty = mailProperty;
     }
 
     @Transactional
@@ -54,6 +59,7 @@ public class UserService implements UserDetailsService {
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setRoles(Collections.singleton(new Role(1,"ROLE_USER")));
         userRepository.save(user);
+        mailService.sendMessage(user, mailProperty.getRegistrationSubject(), mailProperty.getRegistrationText());
 
     }
 
@@ -87,6 +93,7 @@ public class UserService implements UserDetailsService {
     public void updateUserPassword(User user, String newPassword) {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+        mailService.sendMessage(user, mailProperty.getPasswordChangeSubject(), mailProperty.getPasswordChangeText());
     }
 
 
