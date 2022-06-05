@@ -1,8 +1,15 @@
 package com.softarex.domas.questionnaire_portal.dto;
 
 
+import com.softarex.domas.questionnaire_portal.constants.MessageErrorConstant;
+import com.softarex.domas.questionnaire_portal.constants.PasswordRegularExpression;
+import com.softarex.domas.questionnaire_portal.constants.UserPhoneNumberRegularExpression;
 import com.softarex.domas.questionnaire_portal.entity.user.User;
+import com.softarex.domas.questionnaire_portal.validator.annotation.UniqueEmail;
+import com.softarex.domas.questionnaire_portal.validator.groups.UserProfileChange;
+import com.softarex.domas.questionnaire_portal.validator.groups.UserRegistration;
 import net.minidev.json.annotate.JsonIgnore;
+import org.apache.logging.log4j.message.Message;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,16 +21,30 @@ import java.util.Objects;
 public class UserDto {
     private Long id;
 
+    @Email(groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_EMAIL)
+    @UniqueEmail(groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_UNIQUE_FORMAT_OF_EMAIL)
+    @NotBlank(groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_NOT_BLANK_EMAIL)
     private String email;
 
+    @Size(max = 40, groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_ERROR_MAX_LENGTH_OF_FIRST_NAME)
+    @NotBlank(groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_NOT_BLANK_FIRST_NAME)
     private String firstName;
 
+    @Size(max = 40, groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_ERROR_MAX_LENGTH_OF_LAST_NAME)
+    @NotBlank(groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_NOT_BLANK_LAST_NAME)
     private String lastName;
 
+    @Pattern(regexp = UserPhoneNumberRegularExpression.USER_PHONE_NUMBER_REGULAR_EXPRESSION, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_PHONE_NUMBER)
+    @NotBlank(groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_NOT_BLANK_PHONE_NUMBER)
     private String phoneNumber;
 
+    @Pattern(regexp = PasswordRegularExpression.PASSWORD_REGULAR_EXPRESSION,groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_PASSWORD)
+    @NotBlank(groups = {UserRegistration.class}, message = MessageErrorConstant.MESSAGE_NOT_BLANK_PASSWORD)
     private String password;
+
     @JsonIgnore
+    @Pattern(regexp = PasswordRegularExpression.PASSWORD_REGULAR_EXPRESSION,groups = {UserProfileChange.class, UserRegistration.class}, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_PASSWORD)
+    @NotBlank(groups = {UserRegistration.class}, message = MessageErrorConstant.MESSAGE_NOT_BLANK_REPEATED_PASSWORD)
     private String repeatedPassword;
 
     public UserDto() {

@@ -34,7 +34,7 @@
                     <li class="nav-item dropdown" >
                         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false" >
-                            <input class="input_profile_name" type="text" th:value="${userName}" name="name" readonly/>
+                            <span th:text ="${#authentication.getPrincipal().getFirstName() + ' ' + #authentication.getPrincipal().getLastName()}"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li><a th:href="@{/edit_profile}" class="dropdown-item" href="#">Edit Profile</a></li>

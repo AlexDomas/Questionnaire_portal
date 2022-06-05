@@ -8,12 +8,19 @@ import java.util.Collection;
 public class SecurityUserDetails implements UserDetails {
     private String username;
     private String password;
+
+    private String firstName;
+
+    private String lastName;
+
     private Collection<Role> authorities;
 
     public SecurityUserDetails(User user) {
         this.username = user.getEmail();
         this.password = user.getPassword();
         this.authorities = user.getRoles();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
     }
 
     public SecurityUserDetails() {
@@ -27,6 +34,15 @@ public class SecurityUserDetails implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override

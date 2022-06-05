@@ -3,6 +3,7 @@ package com.softarex.domas.questionnaire_portal.controller;
 
 import com.softarex.domas.questionnaire_portal.dto.UserDto;
 import com.softarex.domas.questionnaire_portal.service.UserService;
+import com.softarex.domas.questionnaire_portal.validator.groups.UserRegistration;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +34,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String createNewUser(@ModelAttribute("userDto")  UserDto userDto, BindingResult bindingResult) {
+    public String createNewUser(@ModelAttribute("userDto")  @Validated(UserRegistration.class) UserDto userDto, BindingResult bindingResult) {
         logger.log(Level.INFO, userDto);
         if (bindingResult.hasErrors()) {
             return "registration";

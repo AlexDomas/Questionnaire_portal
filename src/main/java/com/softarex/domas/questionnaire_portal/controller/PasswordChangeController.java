@@ -32,10 +32,7 @@ public class PasswordChangeController {
 
     @GetMapping("/change_password")
     public String changePassword(Model model, Principal principal) throws UserNotFoundException {
-        User user;
         ChangePasswordDto dto = new ChangePasswordDto();
-        user = userService.findByEmail(principal.getName());
-        model.addAttribute("userName", user.getFirstName() + " " + user.getLastName());
         model.addAttribute("changePasswordDto", dto);
         return "change_password";
     }
@@ -43,11 +40,10 @@ public class PasswordChangeController {
     @PostMapping("/change_password")
     public String changePasswordAction(@Valid ChangePasswordDto changePasswordDto,
                                        BindingResult bindingResult,
-                                       Authentication authentication, Model model) {
+                                       Authentication authentication, Model model) throws UserNotFoundException {
         if (!bindingResult.hasErrors()) {
             try {
                 User user = userService.findByEmail(authentication.getName());
-                model.addAttribute("userName", user.getFirstName() + " " + user.getLastName());
                 userService.updateUserPassword(user, changePasswordDto.getNewPassword());
                 return "redirect:change_password?success";
             } catch (UserNotFoundException exception) {

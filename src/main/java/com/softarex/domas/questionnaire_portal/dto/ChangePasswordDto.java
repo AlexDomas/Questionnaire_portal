@@ -1,7 +1,10 @@
 package com.softarex.domas.questionnaire_portal.dto;
 
+import com.softarex.domas.questionnaire_portal.constants.MessageErrorConstant;
+import com.softarex.domas.questionnaire_portal.constants.PasswordRegularExpression;
 import com.softarex.domas.questionnaire_portal.validator.annotation.CurrentPassword;
 
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 public class ChangePasswordDto {
@@ -9,8 +12,10 @@ public class ChangePasswordDto {
         @CurrentPassword
         private String currentPassword;
 
+        @Pattern(regexp = PasswordRegularExpression.PASSWORD_REGULAR_EXPRESSION, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_PASSWORD)
         private String newPassword;
 
+        @Pattern(regexp = PasswordRegularExpression.PASSWORD_REGULAR_EXPRESSION, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_PASSWORD)
         private String confirmNewPassword;
 
         public ChangePasswordDto() {
