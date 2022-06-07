@@ -2,8 +2,6 @@ package com.softarex.domas.questionnaire_portal.service;
 
 
 import com.softarex.domas.questionnaire_portal.dto.UserDto;
-import com.softarex.domas.questionnaire_portal.entity.user.Role;
-import com.softarex.domas.questionnaire_portal.entity.user.SecurityUserDetails;
 import com.softarex.domas.questionnaire_portal.entity.user.User;
 import com.softarex.domas.questionnaire_portal.exception.UserNotFoundException;
 import com.softarex.domas.questionnaire_portal.property.MailProperty;
