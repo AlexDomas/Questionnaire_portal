@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-questionnaire-responses
+      author: Alex Domas
+      changes:
+        - createTable:
+            tableName: questionnaire_responses
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: creation_date
+                  type: timestamp
