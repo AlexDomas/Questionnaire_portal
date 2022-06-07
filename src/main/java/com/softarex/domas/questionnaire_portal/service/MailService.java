@@ -1,32 +1,33 @@
 package com.softarex.domas.questionnaire_portal.service;
 
-
-import com.softarex.domas.questionnaire_portal.entity.user.User;
-import com.softarex.domas.questionnaire_portal.property.MailProperty;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-@PropertySource("classpath:application.properties")
+@RequiredArgsConstructor
 public class MailService {
     private final JavaMailSender javaMailSender;
-    private final MailProperty mailProperty;
 
-    @Autowired
-    public MailService(JavaMailSender javaMailSender, MailProperty mailProperty) {
-        this.javaMailSender = javaMailSender;
-        this.mailProperty = mailProperty;
-    }
+    @Value("${spring.mail.username}")
+    private String username;
 
-    public void sendMessage(User user, String subject, String text) {
+
+
+    public void sendMessage(String emailTo, String subject, String text) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(mailProperty.getFrom());
-        mailMessage.setTo(user.getEmail());
+        mailMessage.setFrom(username);
+        mailMessage.setTo(emailTo);
         mailMessage.setSubject(subject);
         mailMessage.setText(text);
-        javaMailSender.send(mailMessage);
+        try {
+            javaMailSender.send(mailMessage);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+
+        }
     }
 }
