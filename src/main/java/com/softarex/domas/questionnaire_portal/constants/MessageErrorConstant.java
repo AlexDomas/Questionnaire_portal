@@ -17,4 +17,8 @@ public class MessageErrorConstant {
     public static final String MESSAGE_NOT_BLANK_PASSWORD = "Password must not be empty";
     public static final String MESSAGE_NOT_BLANK_REPEATED_PASSWORD = "Repeated Password must not be empty";
 
+    public static final String MESSAGE_EXCEPION_UNIQUE_EMAIL = "This email is already in use in the system";
+    public static final String MESSAGE_EXCEPTION_INVALID_PASSWORD = "Invalid password";
+
+    public static final String MESSAGE_LOGIN_EXIST_EXCEPTION = "User with such login already exists: ";
 }
