@@ -1,5 +1,6 @@
 package com.softarex.domas.questionnaire_portal.entity.questionnaire;
 
+import com.softarex.domas.questionnaire_portal.entity.BaseEntity;
 import com.softarex.domas.questionnaire_portal.entity.field.Field;
 import com.softarex.domas.questionnaire_portal.entity.response.Response;
 import com.softarex.domas.questionnaire_portal.entity.user.User;
@@ -17,10 +18,8 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "questionnaires")
-public class Questionnaire {
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Questionnaire extends BaseEntity {
+
     @OneToOne(mappedBy = "questionnaire")
     @ToString.Exclude
     private User user;

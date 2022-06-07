@@ -1,5 +1,6 @@
 package com.softarex.domas.questionnaire_portal.entity.response;
 
+import com.softarex.domas.questionnaire_portal.entity.BaseEntity;
 import com.softarex.domas.questionnaire_portal.entity.field.Field;
 import com.softarex.domas.questionnaire_portal.entity.questionnaire.Questionnaire;
 import lombok.Getter;
@@ -14,10 +15,8 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "responses")
-public class Response {
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Response extends BaseEntity {
+
     private String value;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questionnaire_id")

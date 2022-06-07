@@ -1,5 +1,6 @@
 package com.softarex.domas.questionnaire_portal.entity.field;
 
+import com.softarex.domas.questionnaire_portal.entity.BaseEntity;
 import com.softarex.domas.questionnaire_portal.entity.questionnaire.Questionnaire;
 import com.softarex.domas.questionnaire_portal.entity.response.Response;
 import lombok.Getter;
@@ -15,10 +16,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-public class Field {
-        @Id
-        @GeneratedValue
-        private UUID id;
+@Table(name = "fields")
+public class Field extends BaseEntity {
+
         @Column(name = "is_active")
         private boolean isActive;
         private boolean required;

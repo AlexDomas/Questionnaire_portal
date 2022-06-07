@@ -1,6 +1,8 @@
 package com.softarex.domas.questionnaire_portal.entity.field;
 
+import com.softarex.domas.questionnaire_portal.entity.BaseEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -16,13 +18,16 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name="field_options")
-public class FieldOption {
-    @Id
-    @GeneratedValue
-    private Long id;
+@NoArgsConstructor
+public class FieldOption extends BaseEntity {
+
     private String value;
     @ManyToOne
     @JoinColumn(name = "field_id")
     private Field field;
+
+    public FieldOption(String value){
+        this.value = value;
+    }
 
 }
