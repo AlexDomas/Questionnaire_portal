@@ -4,16 +4,10 @@ import com.softarex.domas.questionnaire_portal.entity.field.Field;
 import com.softarex.domas.questionnaire_portal.entity.response.Response;
 import com.softarex.domas.questionnaire_portal.entity.user.User;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -21,8 +15,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
 @Entity
 @Table(name = "questionnaires")
 public class Questionnaire {
@@ -32,22 +24,11 @@ public class Questionnaire {
     @OneToOne(mappedBy = "questionnaire")
     @ToString.Exclude
     private User user;
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire")
     @ToString.Exclude
     private Set<Field> fields;
     @OneToMany(mappedBy = "questionnaire")
     @ToString.Exclude
     private List<Response> responses;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Questionnaire that)) return false;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
 }
