@@ -4,8 +4,8 @@ import com.softarex.domas.questionnaire_portal.constants.MessageErrorConstant;
 
 public class EmailExistException extends RuntimeException{
 
-    public EmailExistException(String login){
-        super(MessageErrorConstant.MESSAGE_LOGIN_EXIST_EXCEPTION + login);
+    public EmailExistException(String email){
+        super(MessageErrorConstant.MESSAGE_EMAIL_EXIST_EXCEPTION + email);
     }
 
 }

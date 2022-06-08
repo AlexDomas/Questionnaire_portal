@@ -1,5 +1,6 @@
 package com.softarex.domas.questionnaire_portal.service;
 
+import com.softarex.domas.questionnaire_portal.constants.MessageMailConstants;
 import com.softarex.domas.questionnaire_portal.dto.ChangePasswordDto;
 import com.softarex.domas.questionnaire_portal.dto.UserDto;
 import com.softarex.domas.questionnaire_portal.dto.UserProfileDataDto;
@@ -83,7 +84,7 @@ public class UserService implements UserDetailsService {
         if (!isNotUserExist(user.getEmail())) {
             userRepository.save(user);
         }
-
+        mailService.sendMessage(user.getEmail(), MessageMailConstants.MESSAGE_REGISTRATION_SUBJECT, MessageMailConstants.MESSAGE_REGISTRATION_TEXT);
         return userMapper.toUserDto(user);
     }
 
@@ -108,7 +109,7 @@ public class UserService implements UserDetailsService {
     private void changePassword(ChangePasswordDto passwordDto, User user) {
         user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
         userRepository.save(user);
-
+        mailService.sendMessage(user.getEmail(), MessageMailConstants.MESSAGE_CHANGE_PASSWORD_SUBJECT, MessageMailConstants.MESSAGE_CHANGE_PASSWORD_TEXT);
     }
 
     private boolean isNotUserExist(String email) {
