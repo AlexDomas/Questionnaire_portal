@@ -22,5 +22,7 @@ public class MessageErrorConstant {
 
     public static final String MESSAGE_ERROR_INVALID_PASSWORD = "Enter a valid field password";
 
-    public static final String MESSAGE_LOGIN_EXIST_EXCEPTION = "User with such login already exists: ";
+    public static final String MESSAGE_EMAIL_EXIST_EXCEPTION = "User with such email already exists: ";
+
+
 }

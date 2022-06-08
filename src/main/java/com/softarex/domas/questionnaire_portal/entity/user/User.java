@@ -24,7 +24,7 @@ public class User extends BaseEntity {
     private String firstname;
     private String lastname;
     private String email;
-    private String login;
+    private String phone;
     @Column(name = "password")
     private String password;
     @OneToOne(mappedBy = "user")
