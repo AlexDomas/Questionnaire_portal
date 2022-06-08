@@ -1,15 +1,17 @@
 package com.softarex.domas.questionnaire_portal.dto;
 
+import com.softarex.domas.questionnaire_portal.constants.MessageErrorConstant;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class ChangePasswordDto {
 
-        @Size(max = 50, min = 10, message = "Enter a valid current password")
-        @NotBlank(message = "Current password is empty")
+        @Size(max = 40, min = 8, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_CURRENT_PASSWORD)
+        @NotBlank(message = MessageErrorConstant.MESSAGE_NOT_BLANK_CURRENT_PASSWORD)
         private String currentPassword;
-        @Size(max = 50, min = 10, message = "Enter a valid new password")
-        @NotBlank(message = "New password is empty")
+        @Size(max = 40, min = 8, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_NEW_PASSWORD)
+        @NotBlank(message = MessageErrorConstant.MESSAGE_NOT_BLANK_NEW_PASSWORD)
         private String newPassword;
 
     }

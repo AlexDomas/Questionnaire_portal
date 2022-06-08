@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/user-changeset.yaml
+  - include:
+      file: db/changelog/changeset/questionnaire-changeset.yaml
+  - include:
+      file: db/changelog/changeset/field-changeset.yaml
+  - include:
+      file: db/changelog/changeset/field-option-changeset.yaml
+  - include:
+      file: db/changelog/changeset/questionnaire-response-changeset.yaml
+  - include:
+      file: db/changelog/changeset/field-responses-changeset.yaml
+  - include:
+      file: db/changelog/changeset/foreign-keys-changeset.yaml

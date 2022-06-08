@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-field
-      author: Alex Domasw
+      id: create-user
+      author: AlexDomas
       changes:
         - createTable:
-            tableName: fields
+            tableName: users
             columns:
               - column:
                   name: id
@@ -13,17 +13,17 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: is_active
-                  type: boolean
+                  name: firstname
+                  type: varchar(35)
               - column:
-                  name: required
-                  type: boolean
+                  name: lastname
+                  type: varchar(35)
               - column:
-                  name: label
+                  name: email
                   type: varchar(255)
               - column:
-                  name: field_type
-                  type: varchar(16)
+                  name: password
+                  type: varchar(255)
               - column:
-                  name: position
-                  type: smallint
+                  name: phone
+                  type: varchar(20)

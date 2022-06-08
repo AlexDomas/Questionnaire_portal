@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-questionnaire-responses
-      author: Alex Domas
+      id: create-field-responses
+      author: AlexDomas
       changes:
         - createTable:
-            tableName: questionnaire_responses
+            tableName: field_responses
             columns:
               - column:
                   name: id
@@ -13,5 +13,8 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: creation_date
-                  type: timestamp
+                  name: value
+                  type: varchar(255)
+              - column:
+                  name: position
+                  type: integer

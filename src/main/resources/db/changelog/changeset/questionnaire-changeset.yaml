@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-questionnaries
-      author: Alex Domas
+      author: AlexDomas
       changes:
         - createTable:
             tableName: questionnaires

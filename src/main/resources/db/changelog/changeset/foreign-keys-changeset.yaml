@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-foreign-keys
-      author: Alex Domas
+      author: AlexDomas
       changes:
         - addColumn:
             tableName: questionnaires

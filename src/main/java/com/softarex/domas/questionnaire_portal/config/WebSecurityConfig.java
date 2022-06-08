@@ -3,6 +3,7 @@ package com.softarex.domas.questionnaire_portal.config;
 
 
 import com.softarex.domas.questionnaire_portal.exception.handler.AuthenticationRestFailureHandler;
+import com.softarex.domas.questionnaire_portal.security.JwtConfigurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,14 +30,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTHENTICATION_WHITELIST = {
             "/api/registration",
             "/api/login",
-            "/v2/api-docs",
-            "/configuration/ui",
-            "/configuration/security",
             "/webjars/**",
-            "/v3/api-docs/**"
     };
 
-    private final JwtConfig jwtConfig;
+    private final JwtConfigurer jwtConfig;
 
     private final PasswordEncoder encoder;
 

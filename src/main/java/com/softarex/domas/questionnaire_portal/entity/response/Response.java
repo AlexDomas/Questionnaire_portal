@@ -6,10 +6,7 @@ import com.softarex.domas.questionnaire_portal.entity.questionnaire.Questionnair
 import lombok.Getter;
 import lombok.Setter;
 
-
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 @Setter

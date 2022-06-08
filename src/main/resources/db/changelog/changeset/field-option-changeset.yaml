@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-field-option
-      author: Alex Domas
+      author: AlexDomas
       changes:
         - createTable:
             tableName: field_options
