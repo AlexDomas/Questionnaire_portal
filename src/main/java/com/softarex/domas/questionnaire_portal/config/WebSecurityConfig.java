@@ -40,6 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setPasswordEncoder(encoder);
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        return authenticationProvider;
+    }
+
+    @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -77,16 +85,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .logoutSuccessHandler((
                                 (request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK)))
                 );
-    }
-
-
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(encoder);
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        return authenticationProvider;
     }
 
 
