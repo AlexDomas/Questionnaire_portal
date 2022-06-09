@@ -17,6 +17,7 @@ public class AuthenticationRequestDto {
     @Email(message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_EMAIL)
     @NotBlank(message = MessageErrorConstant.MESSAGE_NOT_BLANK_EMAIL)
     private String email;
+
     @Size(max = 40, min = 8, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_CURRENT_PASSWORD)
     @NotBlank(message = MessageErrorConstant.MESSAGE_NOT_BLANK_CURRENT_PASSWORD)
     private String password;

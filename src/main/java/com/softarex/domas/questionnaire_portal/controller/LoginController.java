@@ -3,7 +3,6 @@ package com.softarex.domas.questionnaire_portal.controller;
 import com.softarex.domas.questionnaire_portal.dto.AuthenticationRequestDto;
 import com.softarex.domas.questionnaire_portal.dto.AuthenticationTokenDto;
 import com.softarex.domas.questionnaire_portal.service.JwtAuthenticationService;
-import com.softarex.domas.questionnaire_portal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

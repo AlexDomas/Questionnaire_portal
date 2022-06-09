@@ -3,8 +3,6 @@ package com.softarex.domas.questionnaire_portal.controller;
 import com.softarex.domas.questionnaire_portal.dto.ChangePasswordDto;
 import com.softarex.domas.questionnaire_portal.dto.UserProfileDataDto;
 import com.softarex.domas.questionnaire_portal.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -37,7 +35,7 @@ public class UserProfileController {
 
     @PutMapping("/change_password")
     public ResponseEntity<Boolean> updatePassword(
-            @Valid @RequestBody @Parameter(description = "New & old passwords") ChangePasswordDto changePasswordDto,
+            @Valid @RequestBody ChangePasswordDto changePasswordDto,
             Principal principal) {
         return ResponseEntity.ok(userService.updatePassword(principal, changePasswordDto));
     }

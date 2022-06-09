@@ -15,10 +15,15 @@ import java.util.Set;
 public class Field extends BaseEntity {
 
         private boolean isActive;
+
         private boolean required;
+
         private String label;
+
         private Integer position;
+
         private FieldType fieldType;
+
         @OneToMany(fetch = FetchType.EAGER, mappedBy = "field")
         private Set<FieldOption> options;
         @ManyToOne

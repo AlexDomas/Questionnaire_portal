@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
     };
 
-    private final JwtConfigurer jwtConfig;
+    private final JwtConfigurer jwtConfigurer;
 
     private final PasswordEncoder encoder;
 
@@ -76,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .apply(jwtConfig)
+                .apply(jwtConfigurer)
                 .and()
                 .logout(l -> l
                         .logoutRequestMatcher(new AntPathRequestMatcher("/api/logout"))

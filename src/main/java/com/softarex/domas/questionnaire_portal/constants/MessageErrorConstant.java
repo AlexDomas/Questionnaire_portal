@@ -18,7 +18,7 @@ public class MessageErrorConstant {
     public static final String MESSAGE_ERROR_LAST_NAME="Enter a valid field last name";
 
     public static final String MESSAGE_EXCEPION_UNIQUE_EMAIL = "This email is already in use in the system";
-    public static final String MESSAGE_EXCEPTION_INVALID_PASSWORD = "Invalid password";
+    public static final String MESSAGE_EXCEPTION_INVALID_PASSWORD = "Invalid password: ";
 
     public static final String MESSAGE_ERROR_INVALID_PASSWORD = "Enter a valid field password";
 

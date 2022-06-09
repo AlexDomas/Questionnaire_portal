@@ -8,5 +8,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class AuthenticationTokenDto {
+
     private String token;
+
 }

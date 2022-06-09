@@ -19,8 +19,10 @@ public class Questionnaire extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "questionnaire")
     private Set<Field> fields;
+
     @OneToMany(mappedBy = "questionnaire")
     private List<QuestionnaireResponse> questionnaireResponses;
 
