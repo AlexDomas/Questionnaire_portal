@@ -4,7 +4,7 @@ databaseChangeLog:
       author: AlexDomas
       changes:
         - createTable:
-            tableName: questionnaires
+            tableName: questionnaire
             columns:
               - column:
                   name: id

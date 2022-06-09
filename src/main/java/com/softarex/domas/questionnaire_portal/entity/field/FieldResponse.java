@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "field_responses")
+@Table(name = "field_response")
 public class FieldResponse extends BaseEntity {
 
     private String value;

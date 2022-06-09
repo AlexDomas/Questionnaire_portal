@@ -4,7 +4,7 @@ databaseChangeLog:
       author: AlexDomas
       changes:
         - createTable:
-            tableName: field_options
+            tableName: field_option
             columns:
               - column:
                     name: id

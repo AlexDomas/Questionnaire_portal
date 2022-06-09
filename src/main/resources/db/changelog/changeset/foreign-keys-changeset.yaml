@@ -4,7 +4,7 @@ databaseChangeLog:
       author: AlexDomas
       changes:
         - addColumn:
-            tableName: questionnaires
+            tableName: questionnaire
             columns:
               - column:
                   name: user_id
@@ -12,13 +12,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
-            baseTableName: questionnaires
+            baseTableName: questionnaire
             baseColumnNames: user_id
             referencedTableName: users
             referencedColumnNames: id
             constraintName: questionnaire_user_FK
         - addColumn:
-            tableName: questionnaire_responses
+            tableName: questionnaire_response
             columns:
               - column:
                   name: questionnaire_id
@@ -26,13 +26,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
-            baseTableName: questionnaire_responses
+            baseTableName: questionnaire_response
             baseColumnNames: questionnaire_id
-            referencedTableName: questionnaires
+            referencedTableName: questionnaire
             referencedColumnNames: id
             constraintName: questionnaire_response_questionnaire_FK
         - addColumn:
-            tableName: field_options
+            tableName: field_option
             columns:
               - column:
                   name: field_id
@@ -40,13 +40,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
-            baseTableName: field_options
+            baseTableName: field_option
             baseColumnNames: field_id
-            referencedTableName: fields
+            referencedTableName: field
             referencedColumnNames: id
             constraintName: field_options_fields_FK
         - addColumn:
-            tableName: field_responses
+            tableName: field_response
             columns:
               - column:
                   name: questionnaire_response_id
@@ -54,9 +54,9 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
-            baseTableName: field_responses
+            baseTableName: field_response
             baseColumnNames: questionnaire_response_id
-            referencedTableName: questionnaire_responses
+            referencedTableName: questionnaire_response
             referencedColumnNames: id
             constraintName: field_responses_questionnaire_FK
         - addColumn:
@@ -68,11 +68,11 @@ databaseChangeLog:
               - addForeignKeyConstraint:
                   baseTableName: users
                   baseColumnNames: questionnaire_id
-                  referencedTableName: questionnaires
+                  referencedTableName: questionnaire
                   referencedColumnNames: id
                   constraintName: user_questionnaire_FK
         - addColumn:
-            tableName: fields
+            tableName: field
             columns:
               - column:
                   name: questionnaire_id
@@ -80,6 +80,6 @@ databaseChangeLog:
               - addForeignKeyConstraint:
                   baseTableName: fields
                   baseColumnNames: questionnaire_id
-                  referencedTableName: questionnaires
+                  referencedTableName: questionnaire
                   referencedColumnNames: id
                   constraintName: field_questionnaire_FK

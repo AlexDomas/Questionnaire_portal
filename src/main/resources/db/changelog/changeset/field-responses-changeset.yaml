@@ -4,7 +4,7 @@ databaseChangeLog:
       author: AlexDomas
       changes:
         - createTable:
-            tableName: field_responses
+            tableName: field_response
             columns:
               - column:
                   name: id

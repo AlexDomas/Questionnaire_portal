@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "fields")
+@Table(name = "field")
 public class Field extends BaseEntity {
 
         private boolean isActive;
@@ -22,9 +22,10 @@ public class Field extends BaseEntity {
 
         private Integer position;
 
+        @Enumerated
         private FieldType fieldType;
 
-        @OneToMany(fetch = FetchType.EAGER, mappedBy = "field")
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "field")
         private Set<FieldOption> options;
         @ManyToOne
         @JoinColumn(name = "questionnaire_id")

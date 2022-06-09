@@ -24,7 +24,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Scope("singleton")
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
@@ -38,19 +37,17 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByEmail(username);
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User with email: " + username + " does not exist");
-        }
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User with such email: " + username + "does not exist"));
         return new org.springframework.security.core.userdetails.User(
-                user.get().getEmail(),
-                user.get().getPassword(),
+                user.getEmail(),
+                user.getPassword(),
                 Collections.emptyList());
     }
 
     @Transactional
     public UserProfileDataDto update(Principal principal, UserProfileDataDto userProfileDto) {
-        User oldUserData = userRepository.findByEmail(principal.getName()).get();
+        User oldUserData = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User with such email: " + principal.getName() + "does not exist"));
         if (userProfileDto.getEmail().equals(principal.getName()) || !isNotUserExist(userProfileDto.getEmail())) {
             updateUserData(userProfileDto, oldUserData);
             userRepository.save(oldUserData);
@@ -60,7 +57,8 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public Boolean updatePassword(Principal principal, ChangePasswordDto passwordDto) {
-        User user = userRepository.findByEmail(principal.getName()).get();
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User with such email: " + principal.getName() + "does not exist"));
         if (passwordEncoder.matches(passwordDto.getCurrentPassword(), user.getPassword())) {
             changePassword(passwordDto, user);
             return true;
@@ -71,11 +69,14 @@ public class UserService implements UserDetailsService {
 
 
     public UserProfileDataDto findByPrincipal(Principal principal) {
-        return userMapper.toUserDto(userRepository.findByEmail(principal.getName()).get());
+        return userMapper.toUserDto(userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User with such email: " + principal.getName() + "does not exist")));
     }
 
     public String findIdByEmail(Principal principal) {
-        return userRepository.findByEmail(principal.getName()).get().getId().toString();
+        return userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User with such email: " + principal.getName() + "does not exist"))
+                .getId().toString();
     }
 
 
@@ -91,11 +92,9 @@ public class UserService implements UserDetailsService {
 
 
     public UUID findIdByEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User with email: " + email + " does not exist");
-        }
-        return user.get().getId();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with such email: " + email + "does not exist"));
+        return user.getId();
     }
 
 

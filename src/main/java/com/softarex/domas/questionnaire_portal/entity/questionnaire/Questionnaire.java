@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "questionnaires")
+@Table(name = "questionnaire")
 public class Questionnaire extends BaseEntity {
 
     @OneToOne
