@@ -19,27 +19,27 @@ public class UserProfileController {
     private final UserService userService;
 
     @GetMapping("/edit_profile")
-    public ResponseEntity<UserProfileDataDto> getData(Principal principal) {
+    public UserProfileDataDto getData(Principal principal) {
         UserProfileDataDto userDataDto = userService.findByPrincipal(principal);
-        return ResponseEntity.ok(userDataDto);
+        return userDataDto;
     }
 
     @PutMapping("/edit_profile")
-    public ResponseEntity<UserProfileDataDto> updateUser(@Valid @RequestBody UserProfileDataDto updateProfileDataDto,
+    public UserProfileDataDto updateUser(@Valid @RequestBody UserProfileDataDto updateProfileDataDto,
             Principal principal) {
-        return ResponseEntity.ok(userService.update(principal, updateProfileDataDto));
+        return userService.update(principal, updateProfileDataDto);
     }
 
     @PutMapping("/change_password")
-    public ResponseEntity<Boolean> updatePassword(
+    public Boolean updatePassword(
             @Valid @RequestBody ChangePasswordDto changePasswordDto,
             Principal principal) {
-        return ResponseEntity.ok(userService.updatePassword(principal, changePasswordDto));
+        return userService.updatePassword(principal, changePasswordDto);
     }
 
     @GetMapping("/id")
-    public ResponseEntity<String> getUserId(Principal principal) {
-        return ResponseEntity.ok(userService.findIdByEmail(principal));
+    public String getUserId(Principal principal) {
+        return userService.findIdByEmail(principal);
     }
 
 
