@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-foreign-keys
+      author: AlexDomas
+      changes:
+        - addColumn:
+            tableName: questionnaire
+            columns:
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: questionnaire
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: questionnaire_user_FK
+        - addColumn:
+            tableName: questionnaire_response
+            columns:
+              - column:
+                  name: questionnaire_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: questionnaire_response
+            baseColumnNames: questionnaire_id
+            referencedTableName: questionnaire
+            referencedColumnNames: id
+            constraintName: questionnaire_response_questionnaire_FK
+        - addColumn:
+            tableName: field_option
+            columns:
+              - column:
+                  name: field_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: field_option
+            baseColumnNames: field_id
+            referencedTableName: field
+            referencedColumnNames: id
+            constraintName: field_options_fields_FK
+        - addColumn:
+            tableName: field_response
+            columns:
+              - column:
+                  name: questionnaire_response_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: field_response
+            baseColumnNames: questionnaire_response_id
+            referencedTableName: questionnaire_response
+            referencedColumnNames: id
+            constraintName: field_responses_questionnaire_FK
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: questionnaire_id
+                  type: uuid
+              - addForeignKeyConstraint:
+                  baseTableName: users
+                  baseColumnNames: questionnaire_id
+                  referencedTableName: questionnaire
+                  referencedColumnNames: id
+                  constraintName: user_questionnaire_FK
+        - addColumn:
+            tableName: field
+            columns:
+              - column:
+                  name: questionnaire_id
+                  type: uuid
+              - addForeignKeyConstraint:
+                  baseTableName: fields
+                  baseColumnNames: questionnaire_id
+                  referencedTableName: questionnaire
+                  referencedColumnNames: id
+                  constraintName: field_questionnaire_FK

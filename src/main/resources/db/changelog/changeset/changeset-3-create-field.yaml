@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-field
+      author: AlexDomas
+      changes:
+        - createTable:
+            tableName: field
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+              - column:
+                  name: required
+                  type: boolean
+              - column:
+                  name: label
+                  type: varchar(255)
+              - column:
+                  name: field_type
+                  type: varchar(10)
+              - column:
+                  name: position
+                  type: smallint

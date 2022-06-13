@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user
+      author: AlexDomas
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: firstname
+                  type: varchar(35)
+              - column:
+                  name: lastname
+                  type: varchar(35)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: password
+                  type: varchar(255)
+              - column:
+                  name: phone
+                  type: varchar(20)
