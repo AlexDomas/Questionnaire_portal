@@ -16,7 +16,9 @@ import javax.persistence.*;
 public class FieldResponse extends BaseEntity {
 
     private String value;
+
     private Integer position;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questionnaire_response_id")
     private QuestionnaireResponse response;

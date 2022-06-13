@@ -22,8 +22,7 @@ public class MailService {
         mailMessage.setText(text);
         try {
             javaMailSender.send(mailMessage);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
 
         }

@@ -40,7 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } catch (JwtAuthenticationException e) {
             SecurityContextHolder.clearContext();
-            failureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse,e);
+            failureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
         }
     }
 

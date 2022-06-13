@@ -14,22 +14,22 @@ import java.util.Set;
 @Table(name = "field")
 public class Field extends BaseEntity {
 
-        private boolean isActive;
+    private boolean isActive;
 
-        private boolean required;
+    private boolean required;
 
-        private String label;
+    private String label;
 
-        private Integer position;
+    private Integer position;
 
-        @Enumerated
-        private FieldType fieldType;
+    @Enumerated
+    private FieldType fieldType;
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "field")
-        private Set<FieldOption> options;
-        @ManyToOne
-        @JoinColumn(name = "questionnaire_id")
-        private Questionnaire questionnaire;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "field")
+    private Set<FieldOption> options;
+    @ManyToOne
+    @JoinColumn(name = "questionnaire_id")
+    private Questionnaire questionnaire;
 
 
 }

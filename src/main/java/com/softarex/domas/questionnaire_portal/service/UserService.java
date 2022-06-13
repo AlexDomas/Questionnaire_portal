@@ -10,7 +10,6 @@ import com.softarex.domas.questionnaire_portal.exception.InvalidPasswordExceptio
 import com.softarex.domas.questionnaire_portal.repository.UserRepository;
 import com.softarex.domas.questionnaire_portal.util.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,7 +32,6 @@ public class UserService implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -67,7 +65,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-
     public UserProfileDataDto findByPrincipal(Principal principal) {
         return userMapper.toUserDto(userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User with such email: " + principal.getName() + "does not exist")));
@@ -79,7 +76,6 @@ public class UserService implements UserDetailsService {
                 .getId().toString();
     }
 
-
     public UserProfileDataDto save(UserDto userDto) {
         User user = userMapper.toUserEntity(userDto);
         if (!isNotUserExist(user.getEmail())) {
@@ -89,14 +85,11 @@ public class UserService implements UserDetailsService {
         return userMapper.toUserDto(user);
     }
 
-
-
     public UUID findIdByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User with such email: " + email + "does not exist"));
         return user.getId();
     }
-
 
     private void updateUserData(UserProfileDataDto userDto, User oldData) {
         oldData.setEmail(userDto.getEmail());
@@ -121,4 +114,5 @@ public class UserService implements UserDetailsService {
     private boolean isEmailExist(String email) {
         return userRepository.existsByEmail(email);
     }
+
 }

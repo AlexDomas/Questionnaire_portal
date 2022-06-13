@@ -1,7 +1,6 @@
 package com.softarex.domas.questionnaire_portal.config;
 
 
-
 import com.softarex.domas.questionnaire_portal.exception.handler.AuthenticationRestFailureHandler;
 import com.softarex.domas.questionnaire_portal.security.JwtConfigurer;
 import lombok.RequiredArgsConstructor;
@@ -86,6 +85,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 (request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK)))
                 );
     }
-
 
 }

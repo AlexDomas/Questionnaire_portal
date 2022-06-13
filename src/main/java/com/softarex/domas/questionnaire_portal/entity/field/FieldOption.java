@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name="field_option")
+@Table(name = "field_option")
 @NoArgsConstructor
 public class FieldOption extends BaseEntity {
 
@@ -19,7 +19,7 @@ public class FieldOption extends BaseEntity {
     @JoinColumn(name = "field_id")
     private Field field;
 
-    public FieldOption(String value){
+    public FieldOption(String value) {
         this.value = value;
     }
 

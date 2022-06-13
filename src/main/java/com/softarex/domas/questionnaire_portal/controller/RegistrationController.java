@@ -5,7 +5,6 @@ import com.softarex.domas.questionnaire_portal.dto.UserDto;
 import com.softarex.domas.questionnaire_portal.dto.UserProfileDataDto;
 import com.softarex.domas.questionnaire_portal.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +23,6 @@ public class RegistrationController {
     public UserProfileDataDto register(@Valid @RequestBody UserDto userDto) {
         return userService.save(userDto);
     }
-
-
 
 
 }

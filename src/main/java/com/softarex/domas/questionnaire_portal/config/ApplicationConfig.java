@@ -2,18 +2,16 @@ package com.softarex.domas.questionnaire_portal.config;
 
 
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Setter
-@ConfigurationProperties(prefix="app")
+@ConfigurationProperties(prefix = "app")
 @Configuration
 public class ApplicationConfig implements WebMvcConfigurer {
 
@@ -32,7 +30,8 @@ public class ApplicationConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(strength);
     }
+
 }

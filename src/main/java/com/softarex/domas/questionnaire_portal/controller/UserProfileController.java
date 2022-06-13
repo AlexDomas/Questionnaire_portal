@@ -4,8 +4,6 @@ import com.softarex.domas.questionnaire_portal.dto.ChangePasswordDto;
 import com.softarex.domas.questionnaire_portal.dto.UserProfileDataDto;
 import com.softarex.domas.questionnaire_portal.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,7 +24,7 @@ public class UserProfileController {
 
     @PutMapping("/edit_profile")
     public UserProfileDataDto updateUser(@Valid @RequestBody UserProfileDataDto updateProfileDataDto,
-            Principal principal) {
+                                         Principal principal) {
         return userService.update(principal, updateProfileDataDto);
     }
 
