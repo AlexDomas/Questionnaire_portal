@@ -19,12 +19,10 @@ import java.util.List;
 public class QuestionnaireResponse extends BaseEntity {
 
     private Date creationDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questionnaire_id")
     private Questionnaire questionnaire;
     @OneToMany(mappedBy = "response")
     private List<FieldResponse> concreteResponses;
-
 
 }

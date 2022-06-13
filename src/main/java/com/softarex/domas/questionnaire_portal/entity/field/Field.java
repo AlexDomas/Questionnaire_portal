@@ -31,5 +31,4 @@ public class Field extends BaseEntity {
     @JoinColumn(name = "questionnaire_id")
     private Questionnaire questionnaire;
 
-
 }

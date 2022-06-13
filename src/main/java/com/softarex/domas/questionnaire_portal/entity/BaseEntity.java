@@ -20,5 +20,4 @@ public class BaseEntity {
     @Column(name = "id", updatable = false, nullable = false)
     protected UUID id;
 
-
 }

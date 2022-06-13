@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
-
     @ExceptionHandler({BadCredentialsException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public String forbidden(AuthenticationException e) {

@@ -40,5 +40,4 @@ public class UserProfileController {
         return userService.findIdByEmail(principal);
     }
 
-
 }

@@ -24,5 +24,4 @@ public class RegistrationController {
         return userService.save(userDto);
     }
 
-
 }
