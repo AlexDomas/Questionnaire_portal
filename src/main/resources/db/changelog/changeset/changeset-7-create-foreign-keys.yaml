@@ -78,7 +78,7 @@ databaseChangeLog:
                   name: questionnaire_id
                   type: uuid
               - addForeignKeyConstraint:
-                  baseTableName: fields
+                  baseTableName: field
                   baseColumnNames: questionnaire_id
                   referencedTableName: questionnaire
                   referencedColumnNames: id

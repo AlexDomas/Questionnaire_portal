@@ -16,11 +16,11 @@ public class UserProfileDataDto {
 
     @NotBlank(message = MessageErrorConstant.MESSAGE_ERROR_FIRST_NAME)
     @Pattern(regexp = "[a-zA-Z]{1,40}", message = MessageErrorConstant.MESSAGE_ERROR_MAX_MIN_LENGTH_OF_FIRST_NAME)
-    private String firstName;
+    private String firstname;
 
     @NotBlank(message = MessageErrorConstant.MESSAGE_ERROR_LAST_NAME)
     @Pattern(regexp = "[a-zA-Z]{1,40}", message = MessageErrorConstant.MESSAGE_ERROR_MAX_MIN_LENGTH_OF_LAST_NAME)
-    private String lastName;
+    private String lastname;
 
     @Email(message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_EMAIL)
     @NotBlank(message = MessageErrorConstant.MESSAGE_NOT_BLANK_EMAIL)

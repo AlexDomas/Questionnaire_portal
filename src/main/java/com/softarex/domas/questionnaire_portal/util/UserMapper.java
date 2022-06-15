@@ -15,15 +15,15 @@ public class UserMapper {
     public UserProfileDataDto toUserDto(User user) {
         UserProfileDataDto userDataProfileDto = new UserProfileDataDto();
         userDataProfileDto.setEmail(user.getEmail());
-        userDataProfileDto.setFirstName(user.getFirstname());
-        userDataProfileDto.setLastName(user.getLastname());
+        userDataProfileDto.setFirstname(user.getFirstname());
+        userDataProfileDto.setLastname(user.getLastname());
         userDataProfileDto.setPhone(user.getPhone());
         return userDataProfileDto;
     }
 
     public User toUserEntity(UserDto userDto) {
         User user = createUser(userDto);
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPasswordHash(passwordEncoder.encode(userDto.getPassword()));
         return user;
     }
 
@@ -31,8 +31,8 @@ public class UserMapper {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPhone(userDto.getPhone());
-        user.setFirstname(userDto.getFirstName());
-        user.setLastname(userDto.getLastName());
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
         return user;
     }
 }

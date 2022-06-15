@@ -23,8 +23,7 @@ public class User extends BaseEntity {
     private String lastname;
     private String email;
     private String phone;
-    @Column(name = "password")
-    private String password;
+    private String passwordHash;
     @OneToOne(mappedBy = "user")
     private Questionnaire questionnaire;
 
