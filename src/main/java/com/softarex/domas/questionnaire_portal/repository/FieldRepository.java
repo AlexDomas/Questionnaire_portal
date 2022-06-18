@@ -13,10 +13,10 @@ import java.util.UUID;
 @Repository
 public interface FieldRepository extends JpaRepository<Field, UUID> {
 
-    List<Field> findAllByQuestionnaireIdOrderedByPositionAsc(UUID questionnaireId);
+    List<Field> findAllByQuestionnaire_IdOrderByPositionAsc(UUID questionnaireId);
 
-    Page<Field> findAllByQuestionnaireIdOrderedByPositionAsc(UUID questionnaireId, Pageable pageable);
+    Page<Field> findAllByQuestionnaire_IdOrderByPositionAsc(UUID questionnaireId, Pageable pageable);
 
-    Integer countAllFieldsByQuestionnaire(Questionnaire questionnaire);
+    Integer countAllByQuestionnaire(Questionnaire questionnaire);
 
 }

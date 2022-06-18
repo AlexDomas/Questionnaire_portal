@@ -10,8 +10,8 @@ import java.util.UUID;
 @Repository
 public interface QuestionnaireRepository extends JpaRepository<Questionnaire, UUID> {
 
-    Optional<Questionnaire> findQuestionnaireByUsersEmail(String email);
+    Optional<Questionnaire> findByUser_Email(String email);
 
-    Optional<Questionnaire> findQuestionnaireByUsersId(UUID uuid);
+    Optional<Questionnaire> findByUser_Id(UUID uuid);
 
 }

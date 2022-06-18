@@ -11,6 +11,6 @@ import java.util.UUID;
 @Repository
 public interface FieldOptionRepository extends JpaRepository<FieldOption, UUID> {
 
-    List<FieldOption> findAllFieldOptionsByField(Field field);
+    List<FieldOption> findAllByField(Field field);
 
 }
