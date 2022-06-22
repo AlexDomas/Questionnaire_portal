@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,6 +30,7 @@ public class UserService implements UserDetailsService {
     private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
+
     private final MailService mailService;
 
     @Override
@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User with such email: " + username + "does not exist"));
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
-                user.getPassword(),
+                user.getPasswordHash(),
                 Collections.emptyList());
     }
 
@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
     public Boolean updatePassword(Principal principal, ChangePasswordDto passwordDto) {
         User user = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User with such email: " + principal.getName() + "does not exist"));
-        if (passwordEncoder.matches(passwordDto.getCurrentPassword(), user.getPassword())) {
+        if (passwordEncoder.matches(passwordDto.getCurrentPassword(), user.getPasswordHash())) {
             changePassword(passwordDto, user);
             return true;
         } else {
@@ -93,13 +93,13 @@ public class UserService implements UserDetailsService {
 
     private void updateUserData(UserProfileDataDto userDto, User oldData) {
         oldData.setEmail(userDto.getEmail());
-        oldData.setFirstname(userDto.getFirstName());
-        oldData.setLastname(userDto.getLastName());
+        oldData.setFirstname(userDto.getFirstname());
+        oldData.setLastname(userDto.getLastname());
         oldData.setPhone(userDto.getPhone());
     }
 
     private void changePassword(ChangePasswordDto passwordDto, User user) {
-        user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+        user.setPasswordHash(passwordEncoder.encode(passwordDto.getNewPassword()));
         userRepository.save(user);
         mailService.sendMessage(user.getEmail(), MessageMailConstants.MESSAGE_CHANGE_PASSWORD_SUBJECT, MessageMailConstants.MESSAGE_CHANGE_PASSWORD_TEXT);
     }

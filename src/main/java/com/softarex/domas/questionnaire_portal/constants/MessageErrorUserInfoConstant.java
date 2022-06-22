@@ -1,6 +1,6 @@
 package com.softarex.domas.questionnaire_portal.constants;
 
-public class MessageErrorConstant {
+public class MessageErrorUserInfoConstant {
 
     public static final String MESSAGE_INCORRECT_FORMAT_OF_EMAIL = "Incorrect email format";
     public static final String MESSAGE_INCORRECT_FORMAT_OF_PHONE_NUMBER = "Incorrect phone number format";

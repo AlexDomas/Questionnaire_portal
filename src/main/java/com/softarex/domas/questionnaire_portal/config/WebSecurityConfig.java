@@ -27,7 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTHENTICATION_WHITELIST = {
-            "/api/registration",
+            "/api/questionnaires/*",
+            "/api/register",
             "/api/login",
             "/webjars/**",
     };

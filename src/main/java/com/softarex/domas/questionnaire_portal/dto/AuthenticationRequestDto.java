@@ -1,6 +1,6 @@
 package com.softarex.domas.questionnaire_portal.dto;
 
-import com.softarex.domas.questionnaire_portal.constants.MessageErrorConstant;
+import com.softarex.domas.questionnaire_portal.constants.MessageErrorUserInfoConstant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,12 +14,12 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class AuthenticationRequestDto {
 
-    @Email(message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_EMAIL)
-    @NotBlank(message = MessageErrorConstant.MESSAGE_NOT_BLANK_EMAIL)
+    @Email(message = MessageErrorUserInfoConstant.MESSAGE_INCORRECT_FORMAT_OF_EMAIL)
+    @NotBlank(message = MessageErrorUserInfoConstant.MESSAGE_NOT_BLANK_EMAIL)
     private String email;
 
-    @Size(max = 40, min = 8, message = MessageErrorConstant.MESSAGE_INCORRECT_FORMAT_OF_CURRENT_PASSWORD)
-    @NotBlank(message = MessageErrorConstant.MESSAGE_NOT_BLANK_CURRENT_PASSWORD)
+    @Size(max = 40, min = 8, message = MessageErrorUserInfoConstant.MESSAGE_INCORRECT_FORMAT_OF_CURRENT_PASSWORD)
+    @NotBlank(message = MessageErrorUserInfoConstant.MESSAGE_NOT_BLANK_CURRENT_PASSWORD)
     private String password;
 
 }
