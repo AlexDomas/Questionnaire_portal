@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,21 +103,21 @@ public class FieldService {
     private List<Field> getAllField(Principal principal) {
         Optional<Questionnaire> questionnaire = questionnaireRepository.findByUser_Email(principal.getName());
         return questionnaire.isPresent()
-                ? fieldRepository.findAllByQuestionnaire_IdOrderByPositionAsc(questionnaire.get().getId())
+                ? fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.get().getId())
                 : Collections.emptyList();
     }
 
     private List<Field> getAllField(UUID userId) {
         Optional<Questionnaire> questionnaire = questionnaireRepository.findByUser_Id(userId);
         return questionnaire.isPresent()
-                ? fieldRepository.findAllByQuestionnaire_IdOrderByPositionAsc(questionnaire.get().getId())
+                ? fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.get().getId())
                 : Collections.emptyList();
     }
 
     private Page<Field> getAllField(Principal principal, Pageable pageable) {
         Optional<Questionnaire> questionnaire = questionnaireRepository.findByUser_Email(principal.getName());
         return questionnaire.isPresent()
-                ? fieldRepository.findAllByQuestionnaire_IdOrderByPositionAsc(questionnaire.get().getId(), pageable)
+                ? fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.get().getId(), pageable)
                 : new PageImpl<>(Collections.emptyList());
     }
 
@@ -142,7 +143,7 @@ public class FieldService {
     }
 
     private void deleteFieldOptions(Field field) {
-        if (isFieldMultivariate(field)) {
+        if (FieldType.isFieldMultivariate(field)) {
             List<FieldOption> fieldOptions = fieldOptionRepository.findAllByField(field);
             if (!fieldOptions.isEmpty()) {
                 fieldOptionRepository.deleteAll(fieldOptions);
@@ -151,7 +152,7 @@ public class FieldService {
     }
 
     private void saveFieldOptions(Field field) {
-        if (isFieldMultivariate(field)) {
+        if (FieldType.isFieldMultivariate(field)) {
             for (FieldOption o : field.getOptions()) {
                 o.setField(field);
             }
@@ -159,14 +160,10 @@ public class FieldService {
         }
     }
 
-    private boolean isFieldMultivariate(Field field) {
-        return field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON;
-    }
-
     private List<Field> getQuestionnaireFields(String currentUserEmail, Integer fieldPosition) {
         Questionnaire questionnaire = questionnaireRepository.findByUser_Email(currentUserEmail)
                 .orElseThrow(() -> new QuestionnaireNotExistException("There are not questionnaire & fields for the current user"));
-        List<Field> fields = fieldRepository.findAllByQuestionnaire_IdOrderByPositionAsc(questionnaire.getId());
+        List<Field> fields = fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.getId());
         if (fields.size() <= fieldPosition) {
             throw new FieldNotExistException(fieldPosition + 1);
         }
@@ -180,7 +177,8 @@ public class FieldService {
 
     private Questionnaire createQuestionnaire(Principal principal) {
         Questionnaire newQuestionnaire = new Questionnaire();
-        User user = userRepository.findByEmail(principal.getName()).get();
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User with such username" + principal.getName() + " does not exist"));
         user.setQuestionnaire(newQuestionnaire);
         newQuestionnaire.setUser(user);
         questionnaireRepository.save(newQuestionnaire);

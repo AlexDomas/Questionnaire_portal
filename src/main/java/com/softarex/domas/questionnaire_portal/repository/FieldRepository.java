@@ -13,9 +13,9 @@ import java.util.UUID;
 @Repository
 public interface FieldRepository extends JpaRepository<Field, UUID> {
 
-    List<Field> findAllByQuestionnaire_IdOrderByPositionAsc(UUID questionnaireId);
+    List<Field> findAllByQuestionnaireIdOrderByPositionAsc(UUID questionnaireId);
 
-    Page<Field> findAllByQuestionnaire_IdOrderByPositionAsc(UUID questionnaireId, Pageable pageable);
+    Page<Field> findAllByQuestionnaireIdOrderByPositionAsc(UUID questionnaireId, Pageable pageable);
 
     Integer countAllByQuestionnaire(Questionnaire questionnaire);
 
