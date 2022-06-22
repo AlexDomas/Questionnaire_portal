@@ -101,21 +101,21 @@ public class FieldService {
     }
 
     private List<Field> getAllField(Principal principal) {
-        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUser_Email(principal.getName());
+        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUserEmail(principal.getName());
         return questionnaire.isPresent()
                 ? fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.get().getId())
                 : Collections.emptyList();
     }
 
     private List<Field> getAllField(UUID userId) {
-        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUser_Id(userId);
+        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUserId(userId);
         return questionnaire.isPresent()
                 ? fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.get().getId())
                 : Collections.emptyList();
     }
 
     private Page<Field> getAllField(Principal principal, Pageable pageable) {
-        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUser_Email(principal.getName());
+        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUserEmail(principal.getName());
         return questionnaire.isPresent()
                 ? fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.get().getId(), pageable)
                 : new PageImpl<>(Collections.emptyList());
@@ -127,7 +127,7 @@ public class FieldService {
     }
 
     private void deleteQuestionnaireResponses(Integer position, Questionnaire questionnaire) {
-        List<FieldResponse> responses = fieldResponseRepository.findAllByResponse_Questionnaire(questionnaire);
+        List<FieldResponse> responses = fieldResponseRepository.findAllByResponseQuestionnaire(questionnaire);
         responses = responses
                 .stream()
                 .filter(r -> r.getPosition().equals(position))
@@ -139,7 +139,8 @@ public class FieldService {
 
     private Field getField(String currentUserEmail, Integer fieldPosition) {
         List<Field> fields = getQuestionnaireFields(currentUserEmail, fieldPosition);
-        return fields.stream().filter(f -> Objects.equals(f.getPosition(), fieldPosition)).findFirst().get();
+        return fields.stream().filter(f -> Objects.equals(f.getPosition(), fieldPosition)).findFirst()
+                .orElseThrow(() -> new FieldNotExistException(fieldPosition));
     }
 
     private void deleteFieldOptions(Field field) {
@@ -161,7 +162,7 @@ public class FieldService {
     }
 
     private List<Field> getQuestionnaireFields(String currentUserEmail, Integer fieldPosition) {
-        Questionnaire questionnaire = questionnaireRepository.findByUser_Email(currentUserEmail)
+        Questionnaire questionnaire = questionnaireRepository.findByUserEmail(currentUserEmail)
                 .orElseThrow(() -> new QuestionnaireNotExistException("There are not questionnaire & fields for the current user"));
         List<Field> fields = fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.getId());
         if (fields.size() <= fieldPosition) {
@@ -171,7 +172,7 @@ public class FieldService {
     }
 
     private Questionnaire getQuestionnaire(Principal principal) {
-        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUser_Email(principal.getName());
+        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUserEmail(principal.getName());
         return questionnaire.orElseGet(() -> createQuestionnaire(principal));
     }
 
