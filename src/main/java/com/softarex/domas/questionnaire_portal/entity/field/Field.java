@@ -22,7 +22,7 @@ public class Field extends BaseEntity {
 
     private Integer position;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private FieldType fieldType;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "field")
