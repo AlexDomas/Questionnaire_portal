@@ -1,6 +1,7 @@
 package com.softarex.domas.questionnaire_portal.service;
 
 import com.softarex.domas.questionnaire_portal.dto.FieldResponseDto;
+import com.softarex.domas.questionnaire_portal.dto.QuestionnaireResponseDto;
 import com.softarex.domas.questionnaire_portal.entity.field.Field;
 import com.softarex.domas.questionnaire_portal.entity.field.FieldOption;
 import com.softarex.domas.questionnaire_portal.entity.field.FieldResponse;
@@ -9,13 +10,17 @@ import com.softarex.domas.questionnaire_portal.entity.questionnaire.Questionnair
 import com.softarex.domas.questionnaire_portal.entity.questionnaire.QuestionnaireResponse;
 import com.softarex.domas.questionnaire_portal.exception.FieldNotExistException;
 import com.softarex.domas.questionnaire_portal.exception.QuestionnaireNotExistException;
-import com.softarex.domas.questionnaire_portal.exception.FieldResponseException;
-import com.softarex.domas.questionnaire_portal.repository.FieldOptionRepository;
-import com.softarex.domas.questionnaire_portal.repository.QuestionnaireRepository;
+import com.softarex.domas.questionnaire_portal.exception.QuestionnaireResponseException;
+import com.softarex.domas.questionnaire_portal.repository.*;
 import com.softarex.domas.questionnaire_portal.util.FieldResponseMapper;
+import com.softarex.domas.questionnaire_portal.util.QuestionnaireResponseMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,13 +30,50 @@ public class FieldResponseService {
 
     private static final String NO_DATA_STRING = "N/A";
     private final static String RESPONSE_OPTIONS_DELIMITER = ", ";
-    private final QuestionnaireRepository questionnaireRepository;
+    private final FieldRepository fieldRepository;
+    private final FieldResponseRepository fieldResponseRepository;
     private final FieldOptionRepository fieldOptionsRepository;
     private final FieldResponseMapper fieldResponseMapper;
+    private final QuestionnaireRepository questionnaireRepository;
+    private final QuestionnaireResponseMapper questionnaireResponseMapper;
+    private final QuestionnaireResponseRepository questionnaireResponseRepository;
+
+    public Page<QuestionnaireResponseDto> findAllByUserId(Principal principal, Pageable pageable) {
+        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUserEmail(principal.getName());
+        Page<QuestionnaireResponse> questionnaireResponses = questionnaireResponseRepository
+                .findAllByQuestionnaireOrderByCreationDate(questionnaire
+                        .orElseThrow(() -> new QuestionnaireNotExistException("Such questionnaire is not exist")), pageable);
+        return questionnaireResponses.map(questionnaireResponseMapper::toResponse);
+    }
+
+    @Transactional
+    public List<FieldResponseDto> saveAll(List<FieldResponseDto> responses, UUID userId) {
+        Questionnaire questionnaire = isQuestionnaireExist(userId);
+        List<Field> questionnaireFields = fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.getId());
+        validateFieldResponseDtos(responses, questionnaireFields);
+        List<FieldResponse> fieldResponses = saveFieldResponses(responses, questionnaire, questionnaireFields);
+        return fieldResponses.stream().map(fieldResponseMapper::toResponseDto).collect(Collectors.toList());
+    }
+
+    private List<FieldResponse> saveFieldResponses(List<FieldResponseDto> responses, Questionnaire questionnaire, List<Field> questionnaireFields) {
+        QuestionnaireResponse response = prepareQuestionnaireResponse(questionnaire);
+        List<FieldResponse> fieldResponses = getFieldResponses(responses, questionnaireFields, response);
+        fieldResponseRepository.saveAll(fieldResponses);
+        response.setConcreteResponses(fieldResponses);
+        return fieldResponses;
+    }
 
     private void validateFieldResponseDtos(List<FieldResponseDto> responses, List<Field> questionnaireFields) {
         checkCopiedAnswers(responses);
         checkRequiredAnswers(responses, getRequiredFieldsPositions(getRequiredFields(questionnaireFields)));
+    }
+
+    private QuestionnaireResponse prepareQuestionnaireResponse(Questionnaire questionnaire) {
+        QuestionnaireResponse questionnaireResponse = new QuestionnaireResponse();
+        questionnaireResponse.setCreationDate(new Date());
+        questionnaireResponse.setQuestionnaire(questionnaire);
+        questionnaireResponseRepository.save(questionnaireResponse);
+        return questionnaireResponse;
     }
 
     private List<FieldResponse> getFieldResponses(
@@ -83,7 +125,7 @@ public class FieldResponseService {
     private void checkActiveField(Field field, FieldResponse response) {
         if (field.isRequired()) {
             if (response.getValue() == null || response.getValue().equals(NO_DATA_STRING)) {
-                throw new FieldResponseException("Required value is empty");
+                throw new QuestionnaireResponseException("Required value is empty");
             }
         }
         if (response.getValue().equals(NO_DATA_STRING)) {
@@ -101,7 +143,7 @@ public class FieldResponseService {
     private void checkRadiobuttonResponseValues(Field field, FieldResponse response, List<FieldOption> options) {
         if (field.getFieldType() == FieldType.RADIO_BUTTON) {
             if (options.stream().filter(o -> o.getValue().equals(response.getValue())).findFirst().isEmpty()) {
-                throw new FieldResponseException("No such response value: " + response.getValue());
+                throw new QuestionnaireResponseException("No such response value: " + response.getValue());
             }
         }
     }
@@ -110,7 +152,7 @@ public class FieldResponseService {
         if (field.getFieldType() == FieldType.COMBOBOX) {
             List<String> fieldResponses = Arrays.stream(response.getValue().split(RESPONSE_OPTIONS_DELIMITER)).toList();
             if (!options.stream().map(FieldOption::getValue).collect(Collectors.toList()).containsAll(fieldResponses)) {
-                throw new FieldResponseException("Invalid combobox response values: " + fieldResponses);
+                throw new QuestionnaireResponseException("Invalid combobox response values: " + fieldResponses);
             }
         }
     }
@@ -124,7 +166,7 @@ public class FieldResponseService {
 
     private void checkRequiredAnswers(List<FieldResponseDto> responses, List<Integer> requiredFieldsPositions) {
         if (!isAllRequiredResponses(responses, requiredFieldsPositions)) {
-            throw new FieldResponseException("There are not all required responses in the answer");
+            throw new QuestionnaireResponseException("There are not all required responses in the answer");
         }
     }
 
@@ -137,7 +179,7 @@ public class FieldResponseService {
 
     private void checkCopiedAnswers(List<FieldResponseDto> responses) {
         if (responses.size() != getResponsesDistinctCount(responses)) {
-            throw new FieldResponseException("There are 2 or more responses for the 1 field");
+            throw new QuestionnaireResponseException("There are 2 or more responses for the 1 field");
         }
     }
 
