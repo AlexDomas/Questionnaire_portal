@@ -208,7 +208,6 @@ public class FieldResponseService {
     }
 
     private Questionnaire getQuestionnaire(UUID userId) {
-
         return questionnaireRepository.findByUserId(userId)
                 .orElseThrow(() -> new QuestionnaireNotExistException("Questionnaire does not exist, id: " + userId.toString()));
     }
