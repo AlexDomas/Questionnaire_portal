@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class FieldResponseService {
 
     private static final String NO_DATA_STRING = "N/A";
-    private final static String RESPONSE_OPTIONS_DELIMITER = ", ";
+    private static final String RESPONSE_OPTIONS_DELIMITER = ", ";
     private final FieldRepository fieldRepository;
     private final FieldResponseRepository fieldResponseRepository;
     private final FieldOptionRepository fieldOptionsRepository;
@@ -39,16 +39,16 @@ public class FieldResponseService {
     private final QuestionnaireResponseRepository questionnaireResponseRepository;
 
     public Page<QuestionnaireResponseDto> findAllByUserId(Principal principal, Pageable pageable) {
-        Optional<Questionnaire> questionnaire = questionnaireRepository.findByUserEmail(principal.getName());
+        Questionnaire questionnaire = questionnaireRepository.findByUserEmail(principal.getName())
+                .orElseThrow(() -> new QuestionnaireNotExistException("Such questionnaire is not exist"));
         Page<QuestionnaireResponse> questionnaireResponses = questionnaireResponseRepository
-                .findAllByQuestionnaireOrderByCreationDate(questionnaire
-                        .orElseThrow(() -> new QuestionnaireNotExistException("Such questionnaire is not exist")), pageable);
+                .findAllByQuestionnaireOrderByCreationDate(questionnaire, pageable);
         return questionnaireResponses.map(questionnaireResponseMapper::toResponse);
     }
 
     @Transactional
     public List<FieldResponseDto> saveAll(List<FieldResponseDto> responses, UUID userId) {
-        Questionnaire questionnaire = isQuestionnaireExist(userId);
+        Questionnaire questionnaire = getQuestionnaire(userId);
         List<Field> questionnaireFields = fieldRepository.findAllByQuestionnaireIdOrderByPositionAsc(questionnaire.getId());
         validateFieldResponseDtos(responses, questionnaireFields);
         List<FieldResponse> fieldResponses = saveFieldResponses(responses, questionnaire, questionnaireFields);
@@ -207,10 +207,10 @@ public class FieldResponseService {
                 .collect(Collectors.toList());
     }
 
-    private Questionnaire isQuestionnaireExist(UUID userId) {
-        Questionnaire questionnaire = questionnaireRepository.findByUserId(userId)
+    private Questionnaire getQuestionnaire(UUID userId) {
+
+        return questionnaireRepository.findByUserId(userId)
                 .orElseThrow(() -> new QuestionnaireNotExistException("Questionnaire does not exist, id: " + userId.toString()));
-        return questionnaire;
     }
 
 }
