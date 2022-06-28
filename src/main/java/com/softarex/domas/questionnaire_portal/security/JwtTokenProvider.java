@@ -24,7 +24,7 @@ public class JwtTokenProvider {
     private String secretKey;
 
     @Value("${jwt.expiration}")
-    private Long validityTimeInMilliseconds;
+    private Long validityTime;
 
     @Value("${jwt.header}")
     private String httpHeader;
@@ -42,7 +42,7 @@ public class JwtTokenProvider {
         Claims claims = Jwts.claims().setSubject(nickname);
         claims.put("id", id);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityTimeInMilliseconds);
+        Date validity = new Date(now.getTime() + validityTime * 10000);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
