@@ -10,7 +10,7 @@ public enum FieldType {
     DATE;
 
     public static boolean isFieldMultivariate(Field field) {
-        return field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON;
+        return field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON || field.getFieldType() == FieldType.CHECKBOX;
     }
 
 }

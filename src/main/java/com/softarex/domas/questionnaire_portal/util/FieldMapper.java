@@ -19,7 +19,7 @@ public class FieldMapper {
         fieldDto.setActive(field.isActive());
         fieldDto.setLabel(field.getLabel());
         fieldDto.setRequired(field.isRequired());
-        if (field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON) {
+        if (field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON || field.getFieldType() == FieldType.CHECKBOX) {
             fieldDto.setFieldOptions(field.getOptions()
                     .stream()
                     .map(FieldOption::getValue)
@@ -34,7 +34,7 @@ public class FieldMapper {
         field.setRequired(fieldDto.isRequired());
         field.setLabel(fieldDto.getLabel());
         field.setFieldType(FieldType.valueOf(fieldDto.getFieldType()));
-        if (field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON) {
+        if (field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON || field.getFieldType() == FieldType.CHECKBOX) {
             field.setOptions(Arrays.stream(fieldDto.getFieldOptions()
                             .split(FIELD_OPTIONS_DELIMITER))
                     .map(FieldOption::new)

@@ -95,7 +95,7 @@ public class FieldResponseService {
     }
 
     private List<FieldOption> getFieldOptions(Field field) {
-        return (field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON)
+        return (field.getFieldType() == FieldType.COMBOBOX || field.getFieldType() == FieldType.RADIO_BUTTON || field.getFieldType() == FieldType.CHECKBOX)
                 ? fieldOptionsRepository.findAllByField(field)
                 : Collections.emptyList();
     }
