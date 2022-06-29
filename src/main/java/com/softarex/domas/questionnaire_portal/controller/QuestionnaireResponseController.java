@@ -30,20 +30,13 @@ public class QuestionnaireResponseController {
             @Valid @RequestBody List<FieldResponseDto> responses,
             @PathVariable(name = "userId") UUID userId) {
         List<FieldResponseDto> listOfFieldResponses = fieldResponseService.saveAll(responses, userId);
+        messagingTemplate.convertAndSend("/responses", "update");
         return listOfFieldResponses;
     }
 
     @GetMapping
     public Page<QuestionnaireResponseDto> findAll(Pageable pageable, Principal principal) {
         return fieldResponseService.findAllByUserId(principal, pageable);
-    }
-
-    @MessageMapping("/updateResponses")
-    @SendTo("/topic/activity")
-    public List<FieldResponseDto> updateResponses(
-            @Valid @RequestBody List<FieldResponseDto> responses,
-            @PathVariable(name = "userId") UUID userId) {
-        return fieldResponseService.saveAll(responses, userId);
     }
 
 }
