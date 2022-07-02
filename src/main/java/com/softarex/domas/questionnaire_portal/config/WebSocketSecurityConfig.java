@@ -9,7 +9,7 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
 
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
-        messages.simpDestMatchers("/responses/**").authenticated();
+        messages.simpDestMatchers("/topic/**").authenticated();
     }
 
     @Override
