@@ -17,8 +17,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 
 @Configuration
@@ -26,7 +32,9 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     private static final String[] AUTHENTICATION_WHITELIST = {
+            "/websocket-questionnaire",
             "/api/fields",
             "/api/responses/*",
             "/api/questionnaires/*",
@@ -88,5 +96,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 (request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK)))
                 );
     }
+
+
 
 }

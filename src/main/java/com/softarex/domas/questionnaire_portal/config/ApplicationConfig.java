@@ -22,7 +22,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry
-                .addMapping("/api/**")
+                .addMapping("/**")
                 .allowedOrigins(allowed)
                 .allowedHeaders("*")
                 .allowedMethods("*")
